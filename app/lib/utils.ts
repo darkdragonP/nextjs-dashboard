@@ -1,6 +1,6 @@
 import { Revenue } from './definitions';
 
-export const formatCurrency = (amount: number, locale: String) => {
+export const formatCurrency = (amount: number, locale: string) => {
   if (locale === 'ko-KR') {
     return (amount).toLocaleString('ko-KR', {
       style: 'currency',

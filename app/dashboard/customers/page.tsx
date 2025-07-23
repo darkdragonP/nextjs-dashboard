@@ -1,5 +1,5 @@
 import Table from '@/app/ui/customers/table';
-import { lusitana } from '@/app/ui/fonts';
+//import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { fetchFilteredCustomers } from '@/app/lib/data';
 import { Metadata } from "next";
@@ -17,7 +17,7 @@ export default async function Page( prop :{
   const searchParams = await prop.searchParams;
   const query = searchParams?.query || '';
   const formattedCustomersTable = await fetchFilteredCustomers(query);
-  
+
   return (
       <div className="w-full">
         <Suspense key={query}>
