@@ -80,6 +80,20 @@ export type CustomerField = {
   name: string;
 };
 
+export type SgicField = {
+  id: string;
+  custId: string;
+  name: string;
+  pAmt: number; 
+  tAmt: number;
+  pDate: string;
+  tDate: string;
+  product_id: string;
+  product_subid: string;
+  product_name: string;
+  product_subname: string;
+};
+
 export type InvoiceForm = {
   id: string;
   customer_id: string;

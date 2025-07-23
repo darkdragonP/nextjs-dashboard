@@ -13,13 +13,24 @@ async function listInvoices() {
  	return data;
 }
 
+async function listsgicpayment() {
+ 	const data = await sql`
+     SELECT * 
+     FROM sgicpayments
+     WHERE 1=1;
+   `;
+
+ 	return data;
+}
+
 export async function GET() {
   //return Response.json({
    // message:
    //   'Uncomment this file and remove this line. You can delete this file when you are finished.',
   //});
   try {
-  	return Response.json(await listInvoices());
+  	//return Response.json(await listInvoices());
+  	return Response.json(await listsgicpayment());
   } catch (error) {
   	return Response.json({ error }, { status: 500 });
   }

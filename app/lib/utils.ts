@@ -1,6 +1,14 @@
 import { Revenue } from './definitions';
 
-export const formatCurrency = (amount: number) => {
+export const formatCurrency = (amount: number, locale: String) => {
+  if (locale === 'ko-KR') {
+    return (amount).toLocaleString('ko-KR', {
+      style: 'currency',
+      currency: 'KRW',
+    });
+  }
+  // Default to USD formatting
+  // Assuming the amount is in cents, we divide by 100 to convert to dollars
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',

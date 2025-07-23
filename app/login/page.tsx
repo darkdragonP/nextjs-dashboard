@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: '로그인',
 };
  
 export default function LoginPage() {

@@ -20,10 +20,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-            Choose customer
+            고객입력
           </label>
           <div className="relative">
             <select
@@ -34,7 +33,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               aria-describedby='customer-error'
             >
               <option value="" disabled>
-                Select a customer
+                고객을 선택하세요.
               </option>
               {customers.map((customer) => (
                 <option key={customer.id} value={customer.id}>
@@ -57,7 +56,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         {/* Invoice Amount */}
         <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Choose an amount
+            금액입력
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -66,7 +65,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 name="amount"
                 type="number"
                 step="0.01"
-                placeholder="Enter USD amount"
+                placeholder="USD달러 금액을 입력하세요."
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -75,10 +74,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </div>
         </div>
 
-        {/* Invoice Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
-            Set the invoice status
+            송장상태 세팅
           </legend>
           <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
             <div className="flex gap-4">
@@ -121,9 +119,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           href="/dashboard/invoices"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          취소
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">송장 생성</Button>
       </div>
     </form>
   );

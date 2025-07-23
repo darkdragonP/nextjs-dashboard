@@ -23,11 +23,11 @@ export default async function CardWrapper() {
   } = await fetchCardData();
   return (
     <>
-      <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="수금 완료" value={totalPaidInvoices} type="collected" />
+      <Card title="대기 중" value={totalPendingInvoices} type="pending" />
+      <Card title="총 송장" value={numberOfInvoices} type="invoices" />
       <Card
-        title="Total Customers"
+        title="총 고객"
         value={numberOfCustomers}
         type="customers"
       />

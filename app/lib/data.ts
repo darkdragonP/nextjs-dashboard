@@ -6,6 +6,7 @@ import {
   InvoicesTable,
   LatestInvoiceRaw,
   Revenue,
+  SgicField,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -41,7 +42,7 @@ export async function fetchLatestInvoices() {
 
     const latestInvoices = data.map((invoice) => ({
       ...invoice,
-      amount: formatCurrency(invoice.amount),
+      amount: formatCurrency(invoice.amount, ""),
     }));
     return latestInvoices;
   } catch (error) {
@@ -70,8 +71,8 @@ export async function fetchCardData() {
 
     const numberOfInvoices = Number(data[0][0].count ?? '0');
     const numberOfCustomers = Number(data[1][0].count ?? '0');
-    const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
-    const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
+    const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0', "");
+    const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0', "");
 
     return {
       numberOfCustomers,
@@ -206,13 +207,45 @@ export async function fetchFilteredCustomers(query: string) {
 
     const customers = data.map((customer) => ({
       ...customer,
-      total_pending: formatCurrency(customer.total_pending),
-      total_paid: formatCurrency(customer.total_paid),
+      total_pending: formatCurrency(customer.total_pending, ""),
+      total_paid: formatCurrency(customer.total_paid, ""),
     }));
 
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
+  }
+}
+
+export async function fetchSgciserch() {
+  try {
+    const sgicField = await sql<SgicField[]>`
+      SELECT
+        sgicpayments.id,
+        sgicpayments."custId",
+        customers.name,
+        sgicpayments."pAmt",
+        sgicpayments."tAmt",
+        sgicpayments."pDate",
+        sgicpayments."tDate",
+        sgicpayments."product_id",
+        sgicpayments."product_subid",
+        product."product_name",
+        product."product_subname"
+      FROM sgicpayments
+      JOIN product
+        ON sgicpayments."product_id" = product."product_id"
+      AND sgicpayments."product_subid" = product."product_subid"
+      JOIN customers
+        ON sgicpayments."custId" = customers."id"
+      WHERE 1=1
+      ORDER BY "pDate" DESC
+    `;
+
+    return sgicField;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all sgicpayments.');
   }
 }
