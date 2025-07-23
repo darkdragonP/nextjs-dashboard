@@ -239,7 +239,7 @@ export async function fetchSgciserch() {
       AND sgicpayments."product_subid" = product."product_subid"
       JOIN customers
         ON sgicpayments."custId" = customers."id"
-      WHERE 1=1
+      WHERE sgicpayments.status = '1'
       ORDER BY "pDate" DESC
     `;
 
@@ -247,5 +247,20 @@ export async function fetchSgciserch() {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all sgicpayments.');
+  }
+}
+
+export async function fetchSboardPages(query: string) {
+  try {
+    const data = await sql`SELECT COUNT(*)
+      FROM sgicpayments
+      WHERE status = '1'
+    `;
+
+    const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of invoices.');
   }
 }

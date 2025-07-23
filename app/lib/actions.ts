@@ -109,6 +109,11 @@ export async function deleteInvoice(id: string) {
   revalidatePath('/dashboard/invoices');
 }
 
+export async function deleteSboard(id: string) {
+  await sql`UPDATE sgicpayments SET status = '2' WHERE id = ${id}`;
+  revalidatePath('/dashboard/s-board');
+}
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,

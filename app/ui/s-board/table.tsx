@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import { UpdateSboard, DeleteSboard } from '@/app/ui/s-board/buttons';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchSgciserch } from '@/app/lib/data';
 
@@ -41,8 +41,8 @@ export default async function SboardTable({
                     <p>{formatDateToLocal(sgciserch.tDate)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={sgciserch.id} />
-                    <DeleteInvoice id={sgciserch.id} />
+                    <UpdateSboard id={sgciserch.id} />
+                    <DeleteSboard id={sgciserch.id} />
                   </div>
                 </div>
               </div>
@@ -100,8 +100,8 @@ export default async function SboardTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={sgciserch.id} />
-                      <DeleteInvoice id={sgciserch.id} />
+                      <UpdateSboard id={sgciserch.id} />
+                      <DeleteSboard id={sgciserch.id} />
                     </div>
                   </td>
                 </tr>
