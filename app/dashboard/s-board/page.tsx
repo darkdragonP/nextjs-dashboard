@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 //import { fetchInvoicesPages } from '@/app/lib/data';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
-  title: 'S-Board',
+  title: 'SGI-Board',
 };
 
 export default async function Page(
@@ -19,9 +19,9 @@ export default async function Page(
     }>;
   }
 ) {
-  //const searchParams = await prop.searchParams;
-  //const query = searchParams?.query || '';
-  //const currentPage = Number(searchParams?.page) || 1;
+  const searchParams = await prop.searchParams;
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
   const totalPages = 1; //await fetchInvoicesPages(query);
 
   return (
@@ -32,13 +32,11 @@ export default async function Page(
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
        <Search placeholder="거래내역 조회..." />
         {/*
-        <CreateInvoice />
+            <CreateInvoice />
         */}
       </div>
         
-      <Suspense  fallback={<SboardTableSkeleton />}>
-        {/* key={query + currentPage}
-        */}
+      <Suspense key={query + currentPage} fallback={<SboardTableSkeleton />}>
         <Table query={""} currentPage={1} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
