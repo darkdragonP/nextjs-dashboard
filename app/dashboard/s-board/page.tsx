@@ -1,11 +1,11 @@
-import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/ui/search';
-import Table from '@/app/ui/invoices/table';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+//import Pagination from '@/app/ui/invoices/pagination';
+// //import Search from '@/app/ui/search';
+//import Table from '@/app/ui/invoices/table';
+//import { CreateInvoice } from '@/app/ui/invoices/buttons';
+//import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { lusitana } from '@/app/ui/fonts';
-import { Suspense } from 'react';
-import { fetchInvoicesPages } from '@/app/lib/data';
+//import { Suspense } from 'react';
+//import { fetchInvoicesPages } from '@/app/lib/data';
 
 export default async function Page(
   prop :{
@@ -16,9 +16,9 @@ export default async function Page(
   }
 ) {
   const searchParams = await prop.searchParams;
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchInvoicesPages(query);
+  //const query = searchParams?.query || '';
+  //const currentPage = Number(searchParams?.page) || 1;
+  //const totalPages = await fetchInvoicesPages(query);
 
   return (
     <div className="w-full">
