@@ -100,3 +100,17 @@ export type InvoiceForm = {
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type SbordForm = {
+  id: string;
+  custId: string;
+  name: string;
+  pAmt: number; 
+  tAmt: number;
+  pDate: string;
+  tDate: string;
+  product_id: string;
+  product_subid: string;
+  product_name: string;
+  product_subname: string;
+};

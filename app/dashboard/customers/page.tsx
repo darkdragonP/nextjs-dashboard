@@ -5,7 +5,7 @@ import { fetchFilteredCustomers } from '@/app/lib/data';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Customers',
+  title: '고객목록',
 };
 
 export default async function Page( prop :{

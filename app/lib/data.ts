@@ -7,6 +7,7 @@ import {
   LatestInvoiceRaw,
   Revenue,
   SgicField,
+  SbordForm,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -262,5 +263,33 @@ export async function fetchSboardPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch total number of invoices.');
+  }
+}
+
+export async function fetchSboardById(id: string) {
+  try {
+    const data = await sql<SbordForm[]>`
+      SELECT
+        sgicpayments.id,
+        sgicpayments."custId",
+        sgicpayments."pAmt",
+        sgicpayments."tAmt",
+        sgicpayments."pDate",
+        sgicpayments."tDate",
+        sgicpayments."product_id",
+        sgicpayments."product_subid"
+       FROM sgicpayments
+      WHERE sgicpayments.id = ${id}
+        AND sgicpayments.status = '1';
+    `;
+
+    const sbord = data.map((sbord) => ({
+      ...sbord,
+    }));
+
+    return sbord[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoice.');
   }
 }
