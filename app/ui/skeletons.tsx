@@ -180,19 +180,19 @@ export function InvoicesTableSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                  고객
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Email
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                  금액
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                  날짜
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Status
+                  상태
                 </th>
                 <th
                   scope="col"
@@ -258,19 +258,22 @@ export function SboardTableSkeleton() {
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Customer
+                  상품명
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  고객명
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Amount
+                  가입금액
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Date
+                  가입일
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Status
+                  지급금액
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  지급일
                 </th>
                 <th
                   scope="col"

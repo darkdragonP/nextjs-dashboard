@@ -80,6 +80,13 @@ export type CustomerField = {
   name: string;
 };
 
+export type ProductsField = {
+  product_id: string;
+  product_subid: string;
+  product_name: string;
+  product_subname: string;
+};
+
 export type SgicField = {
   id: string;
   custId: string;

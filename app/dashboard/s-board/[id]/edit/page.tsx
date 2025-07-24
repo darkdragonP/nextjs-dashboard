@@ -21,7 +21,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         breadcrumbs={[
           { label: 's-board', href: '/dashboard/s-board' },
           {
-            label: 'Edit s-board',
+            label: 'Edit SGI거래',
             href: `/dashboard/s-board/${id}/edit`,
             active: true,
           },

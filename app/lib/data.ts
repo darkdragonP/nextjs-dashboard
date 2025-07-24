@@ -8,6 +8,7 @@ import {
   Revenue,
   SgicField,
   SbordForm,
+  ProductsField,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -179,6 +180,24 @@ export async function fetchCustomers() {
       ORDER BY name ASC
     `;
 
+    return customers;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchProducts() {
+  try {
+    const customers = await sql<ProductsField[]>`
+      SELECT
+        product_id,
+        product_subid,
+        product_name,
+        product_subname
+      FROM product
+      ORDER BY product_id ASC, product_subid ASC
+    `;
     return customers;
   } catch (err) {
     console.error('Database Error:', err);
