@@ -72,7 +72,7 @@ export default function EditSboardForm({
                 name="pAmt"
                 type="text"
                 step="0"
-                maxLength={20} // Limit input length
+                maxLength={12} // Limit input length
                 defaultValue={sboard.pAmt.toLocaleString('ko-KR')}
                 placeholder="가입금액을 입력하세요."
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -95,7 +95,7 @@ export default function EditSboardForm({
                 name="tAmt"
                 type="text"
                 step="0"
-                maxLength={20} // Limit input length
+                maxLength={12} // Limit input length
                 value={ taaAmt }
                 onChange={changeEnteredNum} // Remove commas for processing
                 placeholder="가입금액을 입력하세요."
