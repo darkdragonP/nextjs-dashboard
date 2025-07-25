@@ -1,17 +1,16 @@
 import { Revenue } from './definitions';
 
-export const formatCurrency = (amount: number, locale: string) => {
-  if (locale === 'ko-KR') {
-    return (amount).toLocaleString('ko-KR', {
-      style: 'currency',
-      currency: 'KRW',
-    });
-  }
-  // Default to USD formatting
+export const formatCurrency = (
+    amount: number
+  , locale: string = 'en-US'
+) => {
+  const currency = locale == 'en-US' ? 'USD' : 'KRW';
+  const amountdest = locale == 'en-US' ? (amount / 100) : amount;
+
   // Assuming the amount is in cents, we divide by 100 to convert to dollars
-  return (amount / 100).toLocaleString('en-US', {
+  return amountdest.toLocaleString(locale, {
     style: 'currency',
-    currency: 'USD',
+    currency: currency,
   });
 };
 
@@ -19,6 +18,7 @@ export const formatDateToLocal = (
   dateStr: string,
   locale: string = 'en-US',
 ) => {
+  if (!dateStr) return '';
   const date = new Date(dateStr);
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
@@ -28,6 +28,7 @@ export const formatDateToLocal = (
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
 };
+
 
 export const generateYAxis = (revenue: Revenue[]) => {
   // Calculate what labels we need to display on the y-axis

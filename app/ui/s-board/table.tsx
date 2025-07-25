@@ -10,7 +10,7 @@ export default async function SboardTable({
   query: string;
   currentPage: number;
 }) {
-  const sgciserchs = await fetchSgciserch();
+  const sgciserchs = await fetchSgciserch(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
@@ -90,13 +90,13 @@ export default async function SboardTable({
                     {formatCurrency(sgciserch.pAmt, 'ko-KR')}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(sgciserch.pDate)}
+                    {formatDateToLocal(sgciserch.pDate, 'ko-KR')}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatCurrency(sgciserch.tAmt, 'ko-KR')}
                   </td>
                    <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(sgciserch.tDate)}
+                    {formatDateToLocal(sgciserch.tDate, 'ko-KR')}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">

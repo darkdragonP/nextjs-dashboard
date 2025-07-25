@@ -7,8 +7,8 @@ import {
 import { PiCurrencyKrwFill } from "react-icons/pi";
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateSboard, SboardState, SboardUState } from '@/app/lib/actions';
-import { useActionState } from 'react';
+import { updateSboard, SboardUState } from '@/app/lib/actions';
+import { ChangeEvent, useActionState, useState } from 'react';
 
 export default function EditSboardForm({
   sboard,
@@ -20,9 +20,21 @@ export default function EditSboardForm({
   const initialState: SboardUState = { message: null, errors: {} };
   const updateSboardWithId = updateSboard.bind(null, sboard.id);
   const [state, formAction] = useActionState(updateSboardWithId, initialState);
+  const [taaAmt, setTaaAmt] = useState<string>(sboard.tAmt.toLocaleString('ko-KR'));
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const confirmed = confirm("수정 하시겠습니까?");
+    if (confirmed) e.currentTarget.requestSubmit();
+    else e.preventDefault();
+  }
+  const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+    const removedCommaValue: number = Number(value.replaceAll(",", ""));
+    setTaaAmt(removedCommaValue.toLocaleString());
+ };
 
   return (
-    <form action={formAction}>
+    <form action={formAction} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
@@ -58,9 +70,10 @@ export default function EditSboardForm({
               <input
                 id="pAmt"
                 name="pAmt"
-                type="number"
+                type="text"
                 step="0"
-                defaultValue={sboard.pAmt}
+                maxLength={20} // Limit input length
+                defaultValue={sboard.pAmt.toLocaleString('ko-KR')}
                 placeholder="가입금액을 입력하세요."
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 disabled= {true}  // Disable selection for editing
@@ -80,9 +93,11 @@ export default function EditSboardForm({
               <input
                 id="tAmt"
                 name="tAmt"
-                type="number"
+                type="text"
                 step="0"
-                defaultValue={sboard.tAmt}
+                maxLength={20} // Limit input length
+                value={ taaAmt }
+                onChange={changeEnteredNum} // Remove commas for processing
                 placeholder="가입금액을 입력하세요."
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -91,7 +106,22 @@ export default function EditSboardForm({
             </div>
           </div>
         </div>
-        
+        <div className="mb-4 md:hidden">
+          <label htmlFor="tDate" className="mb-2 block text-sm font-medium">
+            지급일
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="tDate"
+                name="tDate"
+                type="date"
+                defaultValue={new Date().toISOString().split('T')[0]} // Format date for input
+                className="peer block rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link

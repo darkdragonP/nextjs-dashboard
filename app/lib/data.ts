@@ -44,7 +44,7 @@ export async function fetchLatestInvoices() {
 
     const latestInvoices = data.map((invoice) => ({
       ...invoice,
-      amount: formatCurrency(invoice.amount, ""),
+      amount: formatCurrency(invoice.amount),
     }));
     return latestInvoices;
   } catch (error) {
@@ -73,8 +73,8 @@ export async function fetchCardData() {
 
     const numberOfInvoices = Number(data[0][0].count ?? '0');
     const numberOfCustomers = Number(data[1][0].count ?? '0');
-    const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0', "");
-    const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0', "");
+    const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
+    const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
 
     return {
       numberOfCustomers,
@@ -227,8 +227,8 @@ export async function fetchFilteredCustomers(query: string) {
 
     const customers = data.map((customer) => ({
       ...customer,
-      total_pending: formatCurrency(customer.total_pending, ""),
-      total_paid: formatCurrency(customer.total_paid, ""),
+      total_pending: formatCurrency(customer.total_pending),
+      total_paid: formatCurrency(customer.total_paid),
     }));
 
     return customers;
@@ -238,8 +238,12 @@ export async function fetchFilteredCustomers(query: string) {
   }
 }
 
-export async function fetchSgciserch() {
+export async function fetchSgciserch(
+  query: string,
+  currentPage: number,
+) {
   try {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
     const sgicField = await sql<SgicField[]>`
       SELECT
         sgicpayments.id,
@@ -261,6 +265,7 @@ export async function fetchSgciserch() {
         ON sgicpayments."custId" = customers."id"
       WHERE sgicpayments.status = '1'
       ORDER BY "pDate" DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
     return sgicField;

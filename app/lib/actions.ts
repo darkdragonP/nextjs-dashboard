@@ -116,33 +116,35 @@ const FormSchemaBoard = z.object({
     invalid_type_error: 'Please select a customer.',
   }),
   pAmt: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than $0.' }),
-  tAmt: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than $0.' }),
+    .string(),
   pDate: z.string(),
-  tDate: z.string(),
+  tAmt: z.string(),
+  tDate: z.string().nullable(),
+  product_id: z.string(),
+  product_subid: z.string(),
 });
 
 // 수정 FormSchemaUBoard
 const FormSchemaUBoard = z.object({
   id: z.string(),
   tAmt: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than $0.' }),
+    .string(),
+  tDate: z.string().nullable(),
 });
 
-const CreateSbaord = FormSchemaBoard.omit({ id: true, pDate: true });
+const CreateSbaord = FormSchemaBoard.omit({ id: true });
 const UpdateSbaord = FormSchemaUBoard.omit({ id: true });
 
 export type SboardState = {
   errors?: {
     custId?: string[];
     pAmt?: string[];
-    tAmt?: string[];
+
     pDate?: string[];
-    tDate?: string[];
+    tAmt?: string[];
+    tDate?: string[]; 
+    product_id?: string[];
+    product_subid?: string[];
   };
   message?: string | null;
 };
@@ -155,31 +157,36 @@ export type SboardUState = {
 };
 
 //Sboard specific actions
-export async function createSbaord(prevState: SboardState, formData: FormData) {
+export async function createSboard(prevState: SboardState, formData: FormData) {
   // Validate form using Zod
   const validatedFields  = CreateSbaord.safeParse({
     custId: formData.get('custId'),
-    tAmt: formData.get('tAmt'),
-    tDate: formData.get('tDate'),
+    tAmt: formData.get('tAmt')||0,
+    tDate: formData.get('tDate')||null,
+    pAmt: formData.get('pAmt')||0,
+    pDate: formData.get('pDate')||null,
+    product_id: formData.get('product_id'),
+    product_subid: formData.get('product_subid')
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Missing Fields. Failed to Create Sboard.',
     };
   }
 
   // Prepare data for insertion into the database
-  const { custId, tAmt, tDate } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+  const { custId, tAmt, tDate, pAmt, pDate, product_id, product_subid } = validatedFields.data;
 
+  const tAmta = parseInt( tAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
+  const pAmta = parseInt( pAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
    // Insert data into the database
   try {
     await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${custId}, ${tAmt}, ${tDate})
+      INSERT INTO sgicpayments ("custId", "tAmt", "tDate", "pAmt", "pDate", product_id, product_subid, status)
+      VALUES (${custId}, ${tAmta}, ${tDate}, ${pAmta}, ${pDate}, ${product_id}, ${product_subid}, '1')
     `;
   } catch (error) {
     // If a database error occurs, return a more specific error.
@@ -196,6 +203,7 @@ export async function createSbaord(prevState: SboardState, formData: FormData) {
 export async function updateSboard(id: string, prevState: SboardUState, formData: FormData) {
   const validatedFields = UpdateSbaord.safeParse({
     tAmt: formData.get('tAmt'),
+    tDate: formData.get('tDate'),
   });
   
   if (!validatedFields.success) {
@@ -205,16 +213,18 @@ export async function updateSboard(id: string, prevState: SboardUState, formData
     };
   }
   
-  const { tAmt } = validatedFields.data;
-  // Update the updateSboard in the database
+  const { tAmt, tDate } = validatedFields.data;
+  const tAmta = parseInt(tAmt.replace(/,/g, '')); // Convert to integer if formatted with commas
+
   try {
     await sql`
         UPDATE sgicpayments
-           SET "tAmt" = ${tAmt}
+           SET "tAmt" = ${tAmta}
+             , "tDate" = ${tDate}
          WHERE id = ${id}
         `;
   } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    return { message: 'Database Error: Failed to Update SBOARD.' };
   }
 
   revalidatePath('/dashboard/s-board');

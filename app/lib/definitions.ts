@@ -91,8 +91,8 @@ export type SgicField = {
   id: string;
   custId: string;
   name: string;
-  pAmt: number; 
-  tAmt: number;
+  pAmt: bigint; 
+  tAmt: bigint;
   pDate: string;
   tDate: string;
   product_id: string;
@@ -112,8 +112,8 @@ export type SbordForm = {
   id: string;
   custId: string;
   name: string;
-  pAmt: number; 
-  tAmt: number;
+  pAmt: bigint; 
+  tAmt: bigint;
   pDate: string;
   tDate: string;
   product_id: string;

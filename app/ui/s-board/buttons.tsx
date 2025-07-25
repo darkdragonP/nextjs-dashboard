@@ -1,6 +1,9 @@
+"use client";
+
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteSboard } from '@/app/lib/actions';
+import { useActionState } from "react";
 
 export function CreateSboard() {
   return (
@@ -26,11 +29,21 @@ export function UpdateSboard({ id }: { id: string }) {
 }
 
 export function DeleteSboard({ id }: { id: string }) {
-  const deleteSboardWithId = deleteSboard.bind(null, id);
-
+  const deletedSboard = deleteSboard.bind(null, id) ;
+  const [state, formAction, isPending] = useActionState(
+    deletedSboard ,
+    null
+  );
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const confirmed = confirm("정말로 삭제하시겠습니까?");
+    if (confirmed) e.currentTarget.requestSubmit();
+    else e.preventDefault();
+  }
+  
   return (
-    <form action={deleteSboardWithId}>
-      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+    <form action={formAction} onSubmit={handleSubmit}>
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100" >
         <span className="sr-only">Delete</span>
         <TrashIcon className="w-5" />
       </button>

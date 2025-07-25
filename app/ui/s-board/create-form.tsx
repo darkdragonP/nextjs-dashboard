@@ -3,23 +3,29 @@
 import { CustomerField, ProductsField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
+  CalendarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
+import { PiCurrencyKrwFill } from "react-icons/pi";
 import { Button } from '@/app/ui/button';
-import { createInvoice, State } from '@/app/lib/actions';
+import { createSboard, SboardState } from '@/app/lib/actions';
 import { useActionState , useState } from 'react';
 
 
 export default function Form({ customers , products }: { customers: CustomerField[] , products: ProductsField[] }) {
-  const initialState: State = { message: null, errors: {} };
-  const [state, formAction] = useActionState(createInvoice, initialState);
+  const initialState: SboardState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createSboard, initialState);
   const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedSubProduct, setSelectedSubProduct] = useState('');
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const confirmed = confirm("해당 계약을 생성 하시겠습니까?");
+    if (confirmed) e.currentTarget.requestSubmit();
+    else e.preventDefault();
+  }
 
   return (
-    <form action={formAction}>
+    <form action={formAction} onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4">
           <label htmlFor="custId" className="mb-2 block text-sm font-medium">
@@ -45,8 +51,8 @@ export default function Form({ customers , products }: { customers: CustomerFiel
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
           <div id="customer-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.customerId &&
-              state.errors.customerId.map((error: string) => (
+            {state.errors?.custId &&
+              state.errors.custId.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
@@ -54,19 +60,25 @@ export default function Form({ customers , products }: { customers: CustomerFiel
           </div>
         </div>
 
+        {/* 상품 */}
         <div className="mb-4">
-          <label htmlFor="product" className="mb-2 block text-sm font-medium">
-            상품선택
+          <label className="mb-2 block text-sm font-medium">
+                상품선택
           </label>
-          <div className="flex gap-4">
+        </div>
+        <div className="flex gap-2">
+          <div className="mb-4 w-1/2">
+            <label htmlFor="product_id" className="mb-2 block text-sm font-medium">
+              상품분류
+            </label>
             <div className='relative flex items-center'>
               <select
                 id="product_id"
                 name="product_id"
-                className="peer block cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block cursor-pointer w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 defaultValue=""
                 aria-describedby='customer-error'
-                onChange={e => setSelectedProduct(e.target.value)}
+                onChange={e => {setSelectedProduct(e.target.value); setSelectedSubProduct("");}}
               >
                 <option value="" disabled>
                   상품 분류를 선택하세요.
@@ -86,18 +98,26 @@ export default function Form({ customers , products }: { customers: CustomerFiel
               </select>
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
+          </div>
+          <div className="mb-4 w-1/2">
+            <label htmlFor="product_subid" className="mb-2 block text-sm font-medium">
+              상품명
+            </label>
             <div className='relative flex items-center'>
               <select
                 id="product_subid"
                 name="product_subid"
-                className="peer block cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                defaultValue=""
-                aria-describedby='customer-error'
+                className="peer block cursor-pointer w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby='product_subid-error'
+                onChange={e => setSelectedSubProduct(e.target.value)}
+                value={selectedSubProduct}
+                required
               >
                 <option value="" disabled>
                   상품을 선택하세요.
                 </option>
                 {products.map((product) => (
+                  selectedProduct === '' ? null : //선택한것이 없다면 셀렉트박스 비움
                   product.product_id === selectedProduct ? (
                     <option key={product.product_subid} value={product.product_subid}>
                       {product.product_subname}
@@ -108,85 +128,105 @@ export default function Form({ customers , products }: { customers: CustomerFiel
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
             </div>
           </div>
-          <div id="customer-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.customerId &&
-              state.errors.customerId.map((error: string) => (
+          <div id="product_subid-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.product_subid &&
+              state.errors.product_subid.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
           </div>
         </div>
-        
-        {/* Invoice Amount */}
-        <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            금액입력
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="amount"
-                name="amount"
-                type="number"
-                step="0.01"
-                placeholder="USD달러 금액을 입력하세요."
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+
+        {/* 일자 */}
+        <div className="flex gap-2">
+          <div className="mb-4 w-1/2">
+            <label htmlFor="pDate" className="mb-2 block text-sm font-medium">
+              가입일
+            </label>
+            <div className="relative mt-2 rounded-md">
+              <div className="relative">
+                <input
+                  id="pDate"
+                  name="pDate"
+                  type="date"
+                  className="peer block rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                  defaultValue={new Date().toISOString().split('T')[0]} // Set today's date as default
+                  required
+                />
+                <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              </div>
+            </div>
+          </div>
+          <div className="mb-4 w-1/2">
+            <label htmlFor="tDate" className="mb-2 block text-sm font-medium">
+              지급일
+            </label>
+            <div className="relative mt-2 rounded-md">
+              <div className="relative">
+                <input
+                  id="tDate"
+                  name="tDate"
+                  type="date"
+                  className="peer block rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                />
+                <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              </div>
             </div>
           </div>
         </div>
 
-        <fieldset>
-          <legend className="mb-2 block text-sm font-medium">
-            송장상태 세팅
-          </legend>
-          <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
-            <div className="flex gap-4">
-              <div className="flex items-center">
-                <input
-                  id="pending"
-                  name="status"
-                  type="radio"
-                  value="pending"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                />
-                <label
-                  htmlFor="pending"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600"
-                >
-                  Pending <ClockIcon className="h-4 w-4" />
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  id="paid"
-                  name="status"
-                  type="radio"
-                  value="paid"
-                  className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-                />
-                <label
-                  htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
-                >
-                  Paid <CheckIcon className="h-4 w-4" />
-                </label>
-              </div>
+        {/* 금액*/}
+        <div className="mb-4">
+          <label htmlFor="pAmt" className="mb-2 block text-sm font-medium">
+            가입 금액입력
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="pAmt"
+                name="pAmt"
+                type="number"
+                step="0"
+                placeholder="금액을 입력하세요."
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
+              />
+              <p className="pointer-events-none absolute right-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900">원</p>
+              <PiCurrencyKrwFill className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-        </fieldset>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="tAmt" className="mb-2 block text-sm font-medium">
+            지급 금액입력
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="tAmt"
+                name="tAmt"
+                type="number"
+                step="0"
+                placeholder="금액을 입력하세요."
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <p className="pointer-events-none absolute right-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900">원</p>
+              <PiCurrencyKrwFill className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/invoices"
+          href="/dashboard/s-board"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           취소
         </Link>
-        <Button type="submit">송장 생성</Button>
+        <Button type="submit">생성</Button>
       </div>
     </form>
   );
