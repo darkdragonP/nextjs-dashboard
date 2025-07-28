@@ -38,6 +38,7 @@ export default function Form({ customers , products }: { customers: CustomerFiel
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
               aria-describedby='customer-error'
+              required
             >
               <option value="" disabled>
                 고객을 선택하세요.
@@ -79,6 +80,7 @@ export default function Form({ customers , products }: { customers: CustomerFiel
                 defaultValue=""
                 aria-describedby='customer-error'
                 onChange={e => {setSelectedProduct(e.target.value); setSelectedSubProduct("");}}
+                required
               >
                 <option value="" disabled>
                   상품 분류를 선택하세요.
@@ -188,7 +190,9 @@ export default function Form({ customers , products }: { customers: CustomerFiel
                 name="pAmt"
                 type="number"
                 step="0"
+                defaultValue="0"
                 placeholder="금액을 입력하세요."
+                onClick={(e) => e.currentTarget.select()} // Select input value on click
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -209,7 +213,9 @@ export default function Form({ customers , products }: { customers: CustomerFiel
                 name="tAmt"
                 type="number"
                 step="0"
+                defaultValue="0"
                 placeholder="금액을 입력하세요."
+                onClick={(e) => e.currentTarget.select()} // Select input value on click
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
               <p className="pointer-events-none absolute right-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900">원</p>
