@@ -115,10 +115,9 @@ const FormSchemaBoard = z.object({
   custId: z.string({
     invalid_type_error: 'Please select a customer.',
   }),
-  pAmt: z.coerce
-    .string(),
+  pAmt: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
   pDate: z.string(),
-  tAmt: z.string(),
+  tAmt: z.coerce.number(),
   tDate: z.string().nullable(),
   product_id: z.string(),
   product_subid: z.string(),
@@ -127,8 +126,7 @@ const FormSchemaBoard = z.object({
 // 수정 FormSchemaUBoard
 const FormSchemaUBoard = z.object({
   id: z.string(),
-  tAmt: z.coerce
-    .string(),
+  tAmt: z.coerce.number(),
   tDate: z.string().nullable(),
 });
 
@@ -139,7 +137,6 @@ export type SboardState = {
   errors?: {
     custId?: string[];
     pAmt?: string[];
-
     pDate?: string[];
     tAmt?: string[];
     tDate?: string[]; 
@@ -161,10 +158,10 @@ export async function createSboard(prevState: SboardState, formData: FormData) {
   // Validate form using Zod
   const validatedFields  = CreateSbaord.safeParse({
     custId: formData.get('custId'),
-    tAmt: formData.get('tAmt')||0,
-    tDate: formData.get('tDate')||null,
-    pAmt: formData.get('pAmt')||0,
+    pAmt: formData.get('pAmt'),
     pDate: formData.get('pDate')||null,
+    tAmt: formData.get('tAmt'),
+    tDate: formData.get('tDate')||null,
     product_id: formData.get('product_id'),
     product_subid: formData.get('product_subid')
   });
@@ -175,13 +172,13 @@ export async function createSboard(prevState: SboardState, formData: FormData) {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Sboard.',
     };
-  }
+  } 
 
   // Prepare data for insertion into the database
   const { custId, tAmt, tDate, pAmt, pDate, product_id, product_subid } = validatedFields.data;
 
-  const tAmta = parseInt( tAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
-  const pAmta = parseInt( pAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
+  const tAmta = tAmt; //parseInt( tAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
+  const pAmta = pAmt; // parseInt( pAmt.replace(/,/g, '') ); // Convert to integer if formatted with commas
    // Insert data into the database
   try {
     await sql`
@@ -214,7 +211,7 @@ export async function updateSboard(id: string, prevState: SboardUState, formData
   }
   
   const { tAmt, tDate } = validatedFields.data;
-  const tAmta = parseInt(tAmt.replace(/,/g, '')); // Convert to integer if formatted with commas
+  const tAmta = tAmt; //parseInt(tAmt.replace(/,/g, '')); // Convert to integer if formatted with commas
 
   try {
     await sql`
