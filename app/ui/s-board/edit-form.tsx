@@ -27,6 +27,7 @@ export default function EditSboardForm({
     if (confirmed) e.currentTarget.requestSubmit();
     else e.preventDefault();
   }
+  
   const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
     const removedCommaValue: number = Number(value.replaceAll(",", ""));

@@ -5,6 +5,7 @@ import {
   HomeIcon,
   DocumentDuplicateIcon,
   DocumentIcon,
+  ComputerDesktopIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,6 +24,11 @@ const links = [
     name: 'S-Board',
     href: '/dashboard/s-board',
     icon: DocumentIcon,
+  },
+  {
+    name: '직원장비관리',
+    href: '/dashboard/eqEmployees',
+    icon: ComputerDesktopIcon,
   },
   { 
     name: '고객', // Customers

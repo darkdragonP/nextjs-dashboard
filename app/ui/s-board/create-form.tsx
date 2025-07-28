@@ -9,7 +9,7 @@ import {
 import { PiCurrencyKrwFill } from "react-icons/pi";
 import { Button } from '@/app/ui/button';
 import { createSboard, SboardState } from '@/app/lib/actions';
-import { useActionState , useState } from 'react';
+import { ChangeEvent, useActionState , useState } from 'react';
 
 
 export default function Form({ customers , products }: { customers: CustomerField[] , products: ProductsField[] }) {
@@ -17,12 +17,27 @@ export default function Form({ customers , products }: { customers: CustomerFiel
   const [state, formAction] = useActionState(createSboard, initialState);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedSubProduct, setSelectedSubProduct] = useState('');
+  const [taaAmt, setTaaAmt] = useState<string>('0');
+  const [paaAmt, setPaaAmt] = useState<string>('0');
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const confirmed = confirm("해당 계약을 생성 하시겠습니까?");
     if (confirmed) e.currentTarget.requestSubmit();
     else e.preventDefault();
   }
+
+  const changeEnteredNum = (e: ChangeEvent<HTMLInputElement>) => {
+    const id: string = e.target.id;
+    if (id === 'tAmt') {
+      const value: string = e.target.value;
+      const removedCommaValue: number = Number(value.replaceAll(",", ""));
+      setTaaAmt(removedCommaValue.toLocaleString());
+    } else if (id === 'pAmt') {
+      const value: string = e.target.value;
+      const removedCommaValue: number = Number(value.replaceAll(",", ""));
+      setPaaAmt(removedCommaValue.toLocaleString());
+    }
+  };
 
   return (
     <form action={formAction} onSubmit={handleSubmit}>
@@ -192,7 +207,10 @@ export default function Form({ customers , products }: { customers: CustomerFiel
                 step="0"
                 defaultValue="0"
                 placeholder="금액을 입력하세요."
+                maxLength={12} // Limit input length 
                 onClick={(e) => e.currentTarget.select()} // Select input value on click
+                onChange={changeEnteredNum} // Remove commas for processing
+                value={paaAmt}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 required
               />
@@ -213,9 +231,11 @@ export default function Form({ customers , products }: { customers: CustomerFiel
                 name="tAmt"
                 type="number"
                 step="0"
-                defaultValue="0"
                 placeholder="금액을 입력하세요."
+                maxLength={12} // Limit input length
                 onClick={(e) => e.currentTarget.select()} // Select input value on click
+                onChange={changeEnteredNum} // Remove commas for processing
+                value={taaAmt}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
               <p className="pointer-events-none absolute right-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900">원</p>

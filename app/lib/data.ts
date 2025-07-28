@@ -9,6 +9,7 @@ import {
   SgicField,
   SbordForm,
   ProductsField,
+  EqEmployeesField,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -238,6 +239,7 @@ export async function fetchFilteredCustomers(query: string) {
   }
 }
 
+//sgi
 export async function fetchSgciserch(
   query: string,
   currentPage: number,
@@ -315,5 +317,66 @@ export async function fetchSboardById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoice.');
+  }
+}
+
+// 장비
+export async function fetchEqEmployeesPages(query: string) {
+  try {
+    const data = await sql`SELECT COUNT(*)
+      FROM eq_hist
+      WHERE 1=1
+    `;
+
+    const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of invoices.');
+  }
+}
+
+export async function fetchEqEmployeesSerch(
+  query: string,
+  currentPage: number,
+) {
+  try {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    const sgicField = await sql<EqEmployeesField[]>`
+      SELECT
+      ROW_NUMBER() OVER(ORDER BY t.eq_id) AS seq
+    , t.eq_id
+    , t.eq_sn
+    , t.model_nm
+    , t.model_class
+    , t.emp_id
+    , t.emp_nm
+    , t.purc_dt
+FROM (
+    SELECT DISTINCT
+          a.eq_id
+        , a.eq_sn
+        , c.model_nm
+        , c.model_class
+        , b.emp_id
+        , d.emp_nm
+        , a.purc_dt
+    FROM eq_hist A
+    LEFT OUTER JOIN eq_info b
+        ON a.eq_id = b.eq_id
+        AND b.eq_sn = a.eq_sn
+    LEFT OUTER JOIN eq_model c
+        ON c.model_id = a.model_id
+    LEFT OUTER JOIN eq_emp d
+        ON b.emp_id = d.emp_id
+) T
+ORDER BY T.eq_id ASC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return sgicField;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all sgicpayments.');
   }
 }

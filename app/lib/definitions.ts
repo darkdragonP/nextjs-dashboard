@@ -121,3 +121,14 @@ export type SbordForm = {
   product_name: string;
   product_subname: string;
 };
+
+export type EqEmployeesField = {
+  seq : string;
+  eq_id : string;
+  eq_sn : string;
+  model_nm : string;
+  model_class : string;
+  emp_id : string;
+  emp_nm : string;
+  purc_dt : string;
+}
