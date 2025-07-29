@@ -321,6 +321,7 @@ export async function fetchSboardById(id: string) {
 }
 
 // 장비
+const ITEMS_PER_PAGE_EQ = 5;
 export async function fetchEqEmployeesPages(query: string, type:string) {
   try {
     const data = await sql`
@@ -332,17 +333,17 @@ export async function fetchEqEmployeesPages(query: string, type:string) {
           LEFT OUTER JOIN eq_emp C
             ON A.emp_id = C.emp_id
          WHERE A.use_yn = 'Y'  
-           AND ((nullif(${type},'1')='' ) OR
+           AND ((nullif(${type},'') IS NULL AND 1=1 ) OR
                 ('S' = ${type} AND A.eq_sn ILIKE ${`%${query}%`}) OR
                 ('M' = ${type} AND B.model_nm ILIKE ${`%${query}%`}) OR
                 ('E' = ${type} AND C.emp_nm ILIKE ${`%${query}%`}))
     `;
 
-    const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE_EQ);
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch total number of invoices.');
+    throw new Error('Failed to fetch total number of EqEmployees.');
   }
 }
 
@@ -352,7 +353,7 @@ export async function fetchEqEmployeesSerch(
   type:string,
 ) {
   try {
-    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE_EQ;
     const sgicField = await sql<EqEmployeesField[]>`
       SELECT
              ROW_NUMBER() OVER(ORDER BY T.eq_id) AS seq
@@ -391,13 +392,13 @@ export async function fetchEqEmployeesSerch(
                 LEFT OUTER JOIN eq_emp C
                   ON A.emp_id = C.emp_id
                WHERE A.use_yn = 'Y'  
-                 AND ((nullif(${type},'1')='' AND 1=1 ) OR
+                 AND ((nullif(${type},'') IS NULL AND 1=1 ) OR
                       ('S' = ${type} AND A.eq_sn ILIKE ${`%${query}%`}) OR
                       ('M' = ${type} AND B.model_nm ILIKE ${`%${query}%`}) OR
                       ('E' = ${type} AND C.emp_nm ILIKE ${`%${query}%`}))
               ) T
           ORDER BY T.eq_id ASC
-          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+          LIMIT ${ITEMS_PER_PAGE_EQ} OFFSET ${offset}
     `;
 
     return sgicField;

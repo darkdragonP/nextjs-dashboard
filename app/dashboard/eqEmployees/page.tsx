@@ -1,7 +1,8 @@
 import Pagination from '@/app/ui/eqEmployees/pagination';
 import Table from '@/app/ui/eqEmployees/table';
+import Tabpage from '@/app/ui/eqEmployees/tabpage';
 import Search from '@/app/ui/eqEmployees/search';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { EqEmployeesTableSkeleton } from '@/app/ui/skeletons';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { fetchEqEmployeesPages } from '@/app/lib/data';
@@ -34,7 +35,7 @@ export default async function Page(
       <div className="mt-4 justify-between gap-2 md:mt-3">
          <Search placeholder="검색어" />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<EqEmployeesTableSkeleton />}>
         <Table query={query} type={type} currentPage={currentPage}/>
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
@@ -45,7 +46,9 @@ export default async function Page(
         대여 상세 내역
         </div>
       </div>
-
+      <div className="mt-1 justify-between gap-2 md:mt-3">
+        <Tabpage query={query}/>
+      </div>
     </div>
   );
 }

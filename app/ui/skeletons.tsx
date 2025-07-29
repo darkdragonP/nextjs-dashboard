@@ -297,3 +297,121 @@ export function SboardTableSkeleton() {
     </div>
   );
 }
+
+export function EqEmplTableRowSkeleton() {
+  return (
+    <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
+      {/* Customer Name and Image */}
+      <td className="whitespace-nowrap px-3 py-3">
+          <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+         <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+         <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap px-3 py-3">
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </td>
+    </tr>
+  );
+}
+
+export function EqEmployeesMobileSkeleton() {
+  return (
+    <div className="mb-2 w-full rounded-md bg-white p-4">
+      <div className="flex items-center justify-between border-b border-gray-100 pb-8">
+        <div className="flex items-center">
+          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
+          <div className="h-6 w-16 rounded bg-gray-100"></div>
+        </div>
+        <div className="h-6 w-16 rounded bg-gray-100"></div>
+      </div>
+      <div className="flex w-full items-center justify-between pt-4">
+        <div>
+          <div className="h-6 w-16 rounded bg-gray-100"></div>
+          <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
+        </div>
+        <div className="flex justify-end gap-2">
+          <div className="h-10 w-10 rounded bg-gray-100"></div>
+          <div className="h-10 w-10 rounded bg-gray-100"></div>
+        </div>
+        <div className="flex justify-end gap-2">
+          <div className="h-10 w-10 rounded bg-gray-100"></div>
+          <div className="h-10 w-10 rounded bg-gray-100"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function EqEmployeesTableSkeleton() {
+  return (
+    <div className="mt-6 flow-root">
+      <div>
+        대여목록
+      </div>
+      <div className="inline-block min-w-full align-middle">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          <div className="md:hidden">
+            <EqEmployeesMobileSkeleton />
+            <EqEmployeesMobileSkeleton />
+            <EqEmployeesMobileSkeleton />
+            <EqEmployeesMobileSkeleton />
+          </div>
+          <table className="hidden min-w-full text-gray-900 md:table">
+            <thead className="rounded-lg text-left text-sm font-normal">
+              <tr>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 text-center">
+                  순서
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  장비ID
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  시리얼넘버
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  장비명
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  장비종류
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  소유주ID
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  소유주명
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  구매일
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white">
+              <EqEmplTableRowSkeleton />
+              <EqEmplTableRowSkeleton />
+              <EqEmplTableRowSkeleton />
+              <EqEmplTableRowSkeleton />
+              <EqEmplTableRowSkeleton />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
