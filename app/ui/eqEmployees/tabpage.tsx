@@ -22,9 +22,9 @@ export default function Tabpage({
       <div className="tab-container">
          <div className="tabs">
             <button className={ tabClass1 } data-tab-target="#tab1-content"
-            onClick={e => { tabClass1 === "tab-button" ? setTabClass1("tab-button active") : setTabClass1("tab-button"); }}>상세</button>
+            onClick={e => { buttonClick }}>상세</button>
             <button className={ tabClass2 } data-tab-target="#tab2-content"
-            onClick={e => { tabClass1 === "tab-button" ? setTabClass2("tab-button active") : setTabClass2("tab-button"); }}>이력</button>
+            onClick={e => { buttonClick  }}>이력</button>
         </div>
         <div className="tab-content">
             <div id="tab1-content" className={tabContClass1}>
