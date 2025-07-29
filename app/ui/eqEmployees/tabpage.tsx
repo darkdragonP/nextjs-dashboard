@@ -28,12 +28,8 @@ export default function Tabpage({
         </div>
         <div className="tab-content">
             <div id="tab1-content" className={tabContClass1}>
-                <h2>Content for Tab 1</h2>
-                <p>This is the content that appears when Tab 1 is active.</p>
             </div>
             <div id="tab2-content" className={tabContClass2}>
-                <h2>Content for Tab 2</h2>
-                <p>This is the content for Tab 2. It's currently hidden.</p>
             </div>
         </div>
       </div>
