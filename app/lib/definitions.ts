@@ -126,9 +126,16 @@ export type EqEmployeesField = {
   seq : string;
   eq_id : string;
   eq_sn : string;
+  manu_nm : string;
+  model_id : string;
   model_nm : string;
   model_class : string;
+  model_spec: string;
+  eq_state: string;
+  eq_state_detail: string;
+  eq_use: string;
   emp_id : string;
   emp_nm : string;
   purc_dt : string;
+  dest_dt: string;
 }

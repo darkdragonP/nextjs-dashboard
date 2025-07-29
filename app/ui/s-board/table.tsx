@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { UpdateSboard, DeleteSboard } from '@/app/ui/s-board/buttons';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchSgciserch } from '@/app/lib/data';

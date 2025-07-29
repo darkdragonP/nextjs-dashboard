@@ -2,13 +2,15 @@ import { fetchEqEmployeesSerch } from '@/app/lib/data';
 
 export default async function EqEmpleyTable({
   query,
+  type,
   currentPage,
 }: {
   query: string;
+  type: string;
   currentPage: number;
 }) {
-  const eqemployees = await fetchEqEmployeesSerch(query, currentPage);
-
+  const eqemployees = await fetchEqEmployeesSerch(query, currentPage, type);
+  
   return (
     <div className="mt-6 flow-root">
       <div>

@@ -321,11 +321,21 @@ export async function fetchSboardById(id: string) {
 }
 
 // 장비
-export async function fetchEqEmployeesPages(query: string) {
+export async function fetchEqEmployeesPages(query: string, type:string) {
   try {
-    const data = await sql`SELECT COUNT(*)
-      FROM eq_hist
-      WHERE 1=1
+    const data = await sql`
+        SELECT DISTINCT
+               COUNT(A.*)
+          FROM eq_info A
+         INNER JOIN eq_model B 
+            ON A.model_id = B.model_id 
+          LEFT OUTER JOIN eq_emp C
+            ON A.emp_id = C.emp_id
+         WHERE A.use_yn = 'Y'  
+           AND ((nullif(${type},'1')='' ) OR
+                ('S' = ${type} AND A.eq_sn ILIKE ${`%${query}%`}) OR
+                ('M' = ${type} AND B.model_nm ILIKE ${`%${query}%`}) OR
+                ('E' = ${type} AND C.emp_nm ILIKE ${`%${query}%`}))
     `;
 
     const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
@@ -339,39 +349,55 @@ export async function fetchEqEmployeesPages(query: string) {
 export async function fetchEqEmployeesSerch(
   query: string,
   currentPage: number,
+  type:string,
 ) {
   try {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
     const sgicField = await sql<EqEmployeesField[]>`
       SELECT
-      ROW_NUMBER() OVER(ORDER BY t.eq_id) AS seq
-    , t.eq_id
-    , t.eq_sn
-    , t.model_nm
-    , t.model_class
-    , t.emp_id
-    , t.emp_nm
-    , t.purc_dt
-FROM (
-    SELECT DISTINCT
-          a.eq_id
-        , a.eq_sn
-        , c.model_nm
-        , c.model_class
-        , b.emp_id
-        , d.emp_nm
-        , a.purc_dt
-    FROM eq_hist A
-    LEFT OUTER JOIN eq_info b
-        ON a.eq_id = b.eq_id
-        AND b.eq_sn = a.eq_sn
-    LEFT OUTER JOIN eq_model c
-        ON c.model_id = a.model_id
-    LEFT OUTER JOIN eq_emp d
-        ON b.emp_id = d.emp_id
-) T
-ORDER BY T.eq_id ASC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+             ROW_NUMBER() OVER(ORDER BY T.eq_id) AS seq
+           , T.eq_id
+           , T.eq_sn
+           , T.model_id
+           , T.manu_nm
+           , T.model_nm
+           , T.model_class
+           , T.model_spec
+           , T.eq_state
+           , T.eq_state_detail
+           , T.eq_use
+           , T.emp_id
+           , T.emp_nm
+           , T.purc_dt
+           , T.dest_dt
+        FROM (SELECT DISTINCT
+                     A.eq_id
+                   , A.eq_sn
+                   , A.model_id
+                   , B.manu_nm
+                   , B.model_nm
+                   , B.model_class
+                   , B.model_spec
+                   , A.eq_state
+                   , A.eq_state_detail
+                   , A.eq_use
+                   , A.emp_id
+                   , C.emp_nm
+                   , A.purc_dt
+                   , A.dest_dt
+                FROM eq_info A
+               INNER JOIN eq_model B 
+                  ON A.model_id = B.model_id 
+                LEFT OUTER JOIN eq_emp C
+                  ON A.emp_id = C.emp_id
+               WHERE A.use_yn = 'Y'  
+                 AND ((nullif(${type},'1')='' AND 1=1 ) OR
+                      ('S' = ${type} AND A.eq_sn ILIKE ${`%${query}%`}) OR
+                      ('M' = ${type} AND B.model_nm ILIKE ${`%${query}%`}) OR
+                      ('E' = ${type} AND C.emp_nm ILIKE ${`%${query}%`}))
+              ) T
+          ORDER BY T.eq_id ASC
+          LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
     return sgicField;
