@@ -28,27 +28,27 @@ export default async function Page(
   const totalPages = await fetchEqEmployeesPages(query, type);
 
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>직원장비관리</h1>
-      </div>
-      <div className="mt-4 justify-between gap-2 md:mt-3">
-         <Search placeholder="검색어" />
-      </div>
-      <Suspense key={query + currentPage} fallback={<EqEmployeesTableSkeleton />}>
-        <Table query={query} type={type} currentPage={currentPage}/>
-      </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
-      <div className="mt-5 flex w-full justify-between">
-        <div>
-        대여 상세 내역
+    <main>
+      <div className="w-full">
+        <div className="flex w-full items-center justify-between">
+          <h1 className={`${lusitana.className} text-2xl`}>직원장비관리</h1>
         </div>
-      </div>
-      <div className="mt-1 justify-between gap-2 md:mt-3">
+        <div className="mt-4 items-center justify-between gap-2 md:mt-3">
+         <Search placeholder="검색어" />
+        </div>
+        <div className="mtx-6 grid grid-cols-1 gap-6">
+          <Suspense key={query + currentPage} fallback={<EqEmployeesTableSkeleton />}>
+            <Table query={query} type={type} currentPage={currentPage}/>
+          </Suspense>
+          <div className="mt-1 flex w-full justify-center">
+            <Pagination totalPages={totalPages} />
+          </div>
+            <div>
+             대여 상세 내역
+            </div>
+        </div>
         <Tabpage query={query}/>
       </div>
-    </div>
+    </main>
   );
 }

@@ -49,28 +49,28 @@ export default async function EqEmpleyTable({
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6 text-center">
+                <th scope="col" className="px-2 py-2 font-medium sm:pl-6">
                   순서
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   장비ID
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   시리얼넘버
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   장비명
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   장비종류
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   소유주ID
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   소유주명
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                <th scope="col" className="px-3 py-2 font-medium">
                   구매일
                 </th>
               </tr>
@@ -79,31 +79,31 @@ export default async function EqEmpleyTable({
               {eqemployees?.map((eqemployees) => (
                 <tr
                   key={eqemployees.seq}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  className="w-full border-b px-2 py-2 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                       <p className='text-center'>{ eqemployees.seq }</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                       <p>{ eqemployees.eq_id }</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                       <p>{ eqemployees.eq_sn }</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                     <p>{ eqemployees.model_nm }</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                     { (eqemployees.model_class==='N'?'노트북':eqemployees.model_class==='M'?'모니터':'기타') 
                       + ' ( ' + eqemployees.model_class + ' )'}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                     { eqemployees.emp_id }
                   </td>
-                   <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-2">
                     { eqemployees.emp_nm }
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <td className="whitespace-nowrap py-3 py-2 pl-6 pr-3">
                     { eqemployees.purc_dt }
                   </td>
                 </tr>

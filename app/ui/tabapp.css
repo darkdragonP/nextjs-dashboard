@@ -1,11 +1,6 @@
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-
 .tab-container {
-    max-width: 800px;
+    max-width: auto;
     margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 5px;

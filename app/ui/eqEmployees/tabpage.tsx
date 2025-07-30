@@ -13,23 +13,38 @@ export default function Tabpage({
     const [tabContClass1, setTabContClass1] = useState<string>("content-panel active");
     const [tabContClass2, setTabContClass2] = useState<string>("content-panel");
 
-    const buttonClick = (e: React.FormEvent<HTMLFormElement>)=>{
-        
+    const buttonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+      const target = e.target as HTMLButtonElement;
+      if (target.id === 'tab1') {
+        console.log(e);
+        setTabClass1("tab-button active");
+        setTabClass2("tab-button");
+        setTabContClass1("content-panel active");
+        setTabContClass2("content-panel");
+      } else {
+        console.log(e);
+        setTabClass1("tab-button");
+        setTabClass2("tab-button active");
+        setTabContClass1("content-panel");
+        setTabContClass2("content-panel active");
+      }
     }
     
   return (
     <>
       <div className="tab-container">
          <div className="tabs">
-            <button className={ tabClass1 } data-tab-target="#tab1-content"
-            onClick={e => { buttonClick }}>상세</button>
-            <button className={ tabClass2 } data-tab-target="#tab2-content"
-            onClick={e => { buttonClick  }}>이력</button>
+            <button id='tab1' className={ tabClass1 } data-tab-target="#tab1-content"
+            onClick={e => { buttonClick(e); }}>상세</button>
+            <button id='tab2' className={ tabClass2 } data-tab-target="#tab2-content"
+            onClick={e => { buttonClick(e) }}>이력</button>
         </div>
         <div className="tab-content">
-            <div id="tab1-content" className={tabContClass1}>
+            <div id="tab1-content" className={ tabContClass1 }>
+              {"탭1"}
             </div>
-            <div id="tab2-content" className={tabContClass2}>
+            <div id="tab2-content" className={ tabContClass2 }>
+              {"탭2"}
             </div>
         </div>
       </div>
