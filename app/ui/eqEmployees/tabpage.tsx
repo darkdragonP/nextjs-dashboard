@@ -1,5 +1,7 @@
 "use client";
 
+import Tab1view from '@/app/ui/eqEmployees/tap1_view';
+import Tab2view from '@/app/ui/eqEmployees/tap2_view';
 import React, { useState } from 'react';
 import '@/app/ui/tabapp.css';
 
@@ -30,6 +32,7 @@ export default function Tabpage({
       }
     }
     
+    
   return (
     <>
       <div className="tab-container">
@@ -41,10 +44,10 @@ export default function Tabpage({
         </div>
         <div className="tab-content">
             <div id="tab1-content" className={ tabContClass1 }>
-              {"탭1"}
+              <Tab1view query={query} type={""}/>
             </div>
             <div id="tab2-content" className={ tabContClass2 }>
-              {"탭2"}
+              <Tab2view query={query} type={""}/>
             </div>
         </div>
       </div>
