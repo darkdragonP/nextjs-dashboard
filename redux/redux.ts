@@ -1,10 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState : { 
-    tokenList:[{"eq_id":""}]; 
+    tokenList:[{}]; 
     tokenSet :{};
 }={
-    tokenList:[{"eq_id":""}], 
+    tokenList:[{seq :"",
+                eq_id : "",
+                eq_sn :"",
+                manu_nm :"",
+                model_id :"",
+                model_nm :"",
+                model_class :"",
+                model_spec:"",
+                eq_state:"",
+                eq_state_detail:"",
+                eq_use:"",
+                emp_id :"",
+                emp_nm :"",
+                purc_dt :"",
+                dest_dt:"",}], 
     tokenSet :{},
 };
 
