@@ -9,30 +9,7 @@ import { lusitana } from '@/app/ui/fonts';
 import { Suspense, useState } from 'react';
 import { EqEmployeesField } from '@/app/lib/definitions';
 import postgres from 'postgres';
-import store, { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setTokenDataset, setTokenList } from '@/redux/redux';
-
-//redux
-const dispatch: AppDispatch = useDispatch();
-const tokenList=useSelector((state: RootState)=> state.token.tokenList);
-const tokenSet=useSelector((state: RootState)=> state.token.tokenSet);
-const aa = [{eq_id:""}];
-const updataTokenList = (newTokenlist:any) =>{
-  const newTokenlista: postgres.RowList<EqEmployeesField[]> =  newTokenlist;
-  const aa = [];
-  for(var i=0; newTokenlista.length = i; i++ ) {
-    aa.push(newTokenlista[i]);
-  }
-  if(aa.length == 0) {
-    aa.push({eq_id:""})
-  }
-  dispatch(setTokenList(aa));
-}
-
-const updataTokenDataset = (newTokenSet:any) =>{
-  dispatch(setTokenDataset(newTokenSet));
-}
+import store from '@/redux/store';
 
 export default function Page({
     query,
@@ -46,7 +23,21 @@ export default function Page({
     eqemployees:postgres.RowList<EqEmployeesField[]>;
   }
 ) {
-    const [state, setstate] = useState<EqEmployeesField>();
+    const [state, setstate] = useState<EqEmployeesField>({seq :"",
+                                                        eq_id : "",
+                                                        eq_sn :"",
+                                                        manu_nm :"",
+                                                        model_id :"",
+                                                        model_nm :"",
+                                                        model_class :"",
+                                                        model_spec:"",
+                                                        eq_state:"",
+                                                        eq_state_detail:"",
+                                                        eq_use:"",
+                                                        emp_id :"",
+                                                        emp_nm :"",
+                                                        purc_dt :"",
+                                                        dest_dt:"",});
 
     const asd = (e:any) => {
         setstate( eqemployees[e] );
@@ -71,7 +62,7 @@ export default function Page({
         <div className="mt-1 flex w-full justify-center">
          <Pagination totalPages={totalPages}/>
         </div>
-        <Tabpage query={query} eqemployees={ tokenList }/>
+        <Tabpage query={query} eqemployees={ state }/>
         </div>
       </div>
   );

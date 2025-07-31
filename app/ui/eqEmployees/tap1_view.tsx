@@ -5,12 +5,10 @@ import { EqEmployeesField } from '@/app/lib/definitions';
 export default function tap1_view({
   eqemployees,
 }: {
-  eqemployees:{eq_id?:""};
+  eqemployees:EqEmployeesField;
 }) {
     console.log('eqemployeetap1' ,eqemployees)
     
-    var eqemployee=eqemployees;
-
   return (
     <table className="hidden min-w-full text-gray-900 md:table">
         <thead className="rounded-lg text-left text-sm font-normal">
@@ -33,7 +31,7 @@ export default function tap1_view({
             <td className="whitespace-nowrap px-3 py-2">
                 <input 
                     className='bg-gray-100 rounded-md border-gray-200' 
-                    defaultValue={ eqemployee.eq_id } 
+                    defaultValue={ eqemployees.eq_id??"" } 
                     readOnly
                 />
             </td>

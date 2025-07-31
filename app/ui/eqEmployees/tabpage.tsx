@@ -4,13 +4,14 @@ import Tab1view from '@/app/ui/eqEmployees/tap1_view';
 import Tab2view from '@/app/ui/eqEmployees/tap2_view';
 import React, { useState } from 'react';
 import '@/app/ui/tabapp.css';
+import { EqEmployeesField } from '@/app/lib/definitions';
 
 export default function Tabpage({
   query,
   eqemployees,
 }: {
   query: string;
-  eqemployees:{};
+  eqemployees:EqEmployeesField;
 }) {
     const [tabClass1, setTabClass1] = useState<string>("tab-button active");
     const [tabClass2, setTabClass2] = useState<string>("tab-button");
@@ -33,9 +34,7 @@ export default function Tabpage({
         setTabContClass2("content-panel active");
       }
     }
-    eqemployees = {"eq_id":""}
     console.log("tabpage", eqemployees);
-    
   return (
     <>
       <div className="tab-container">
