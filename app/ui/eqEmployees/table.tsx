@@ -1,16 +1,22 @@
-import { fetchEqEmployeesSerch } from '@/app/lib/data';
+"use client";
 
-export default async function EqEmpleyTable({
-  query,
-  type,
-  currentPage,
+import { EqEmployeesField } from "@/app/lib/definitions";
+import { RowList } from "postgres";
+import { useState } from "react";
+
+export default function EqEmpleyTable( {
+  eqemployees,
+  asd,
 }: {
-  query: string;
-  type: string;
-  currentPage: number;
+  eqemployees: RowList<EqEmployeesField[]> | [];
+  asd:Function;
 }) {
-  const eqemployees = await fetchEqEmployeesSerch(query, currentPage, type);
-  
+  const [fucus, setFucus] = useState<number>(0);
+  const clickEvent = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    setFucus(e.currentTarget.rowIndex);
+    asd(fucus);
+  }
+
   return (
     <div className="mt-6 flow-root">
       <div>
@@ -79,7 +85,8 @@ export default async function EqEmpleyTable({
               {eqemployees?.map((eqemployees) => (
                 <tr
                   key={eqemployees.seq}
-                  className="w-full border-b px-2 py-2 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                  className={"w-full border-b px-2 py-2 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"+(fucus == Number(eqemployees.seq) ? " bg-blue-50" : "")}
+                  onClick={e=>{clickEvent(e)}}
                 >
                   <td className="whitespace-nowrap px-3 py-2">
                       <p className='text-center'>{ eqemployees.seq }</p>

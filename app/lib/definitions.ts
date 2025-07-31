@@ -124,7 +124,7 @@ export type SbordForm = {
 
 export type EqEmployeesField = {
   seq : string;
-  eq_id : string;
+  eq_id : string|'';
   eq_sn : string;
   manu_nm : string;
   model_id : string;

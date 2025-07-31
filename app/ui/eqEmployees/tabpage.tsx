@@ -7,8 +7,10 @@ import '@/app/ui/tabapp.css';
 
 export default function Tabpage({
   query,
+  eqemployees,
 }: {
   query: string;
+  eqemployees:{};
 }) {
     const [tabClass1, setTabClass1] = useState<string>("tab-button active");
     const [tabClass2, setTabClass2] = useState<string>("tab-button");
@@ -31,7 +33,8 @@ export default function Tabpage({
         setTabContClass2("content-panel active");
       }
     }
-    
+    eqemployees = {"eq_id":""}
+    console.log("tabpage", eqemployees);
     
   return (
     <>
@@ -44,7 +47,7 @@ export default function Tabpage({
         </div>
         <div className="tab-content">
             <div id="tab1-content" className={ tabContClass1 }>
-              <Tab1view query={query} type={""}/>
+              <Tab1view eqemployees={eqemployees}/>
             </div>
             <div id="tab2-content" className={ tabContClass2 }>
               <Tab2view query={query} type={""}/>
