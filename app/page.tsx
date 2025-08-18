@@ -27,6 +27,9 @@ export default function Page() {
           >
             <span>로그인</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
+          <Link
+            href="tel:01058044277"
+          ><span>전화</span></Link>
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           <Image
