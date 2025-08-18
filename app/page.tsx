@@ -30,6 +30,9 @@ export default function Page() {
           <a
             href="tel:01058044277"
           ><span>전화</span></a>
+          <a
+            href="myapp://apps.apple.com/app/id431560955"
+          ><span>전화</span></a>
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           <Image
