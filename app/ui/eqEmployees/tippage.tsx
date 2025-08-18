@@ -39,7 +39,7 @@ export default function Page({
                                                         purc_dt :"",
                                                         dest_dt:"",});
 
-    const asd = (e:any) => {
+    const testDatafill = (e:any) => {
         setstate( eqemployees[e] );
         console.log("동작함", store.getState())
     }
@@ -54,7 +54,7 @@ export default function Page({
         </div>
         <div className="mtx-6 grid grid-cols-1 gap-6">
         <Suspense key={query + currentPage} fallback={<EqEmployeesTableSkeleton />}>
-          <Table eqemployees={eqemployees} asd={asd} />
+          <Table eqemployees={eqemployees} testDatafill={testDatafill} />
         </Suspense>
         <div>
             대여 상세 내역
