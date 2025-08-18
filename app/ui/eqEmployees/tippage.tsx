@@ -54,7 +54,7 @@ export default function Page({
         </div>
         <div className="mtx-6 grid grid-cols-1 gap-6">
         <Suspense key={query + currentPage} fallback={<EqEmployeesTableSkeleton />}>
-          <Table eqemployees={eqemployees} testDatafill={testDatafill} />
+          <Table eqemployees={eqemployees} />
         </Suspense>
         <div>
             대여 상세 내역

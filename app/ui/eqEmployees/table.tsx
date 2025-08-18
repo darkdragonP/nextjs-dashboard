@@ -6,15 +6,15 @@ import { useState } from "react";
 
 export default function EqEmpleyTable( {
   eqemployees,
-  testDatafill,
+  
 }: {
   eqemployees: RowList<EqEmployeesField[]> | [];
-  testDatafill: Function;
+  
 }) {
   const [fucus, setFucus] = useState<number>(0);
   const clickEvent = (e: React.MouseEvent<HTMLTableRowElement>) => {
     setFucus(e.currentTarget.rowIndex);
-    testDatafill(fucus);
+   
   }
 
   return (
